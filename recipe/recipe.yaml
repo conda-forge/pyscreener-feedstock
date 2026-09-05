@@ -1,0 +1,55 @@
+schema_version: 1
+
+context:
+  name: pyscreener
+  version: "1.2.3"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pyscreener-${{ version }}.tar.gz
+  sha256: 6e2df866643bc4ad424f4e20fd1e18a7aeb1b777e612f6e490f1359b13681c13
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - colorama
+    - configargparse
+    - h5py
+    - numpy
+    - pandas
+    - pdbfixer
+    - python >=${{ python_min }}
+    - ray-default
+    - scipy
+    - tqdm
+    - openbabel
+    - rdkit
+
+tests:
+  - python:
+      imports:
+        - pyscreener
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: pythonic interface to virtual screening software
+  license: MIT
+  license_file:
+    - LICENSE
+  homepage: https://github.com/coleygroup/pyscreener
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
